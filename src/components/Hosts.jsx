@@ -50,12 +50,12 @@ const FloatingImage = () => {
     <div id="hosts" className="min-h-dvh w-screen bg-black text-blue-50">
       <div className="flex size-full flex-col items-center py-10 pb-24">
         <p className="font-general text-sm uppercase md:text-[10px]">
-          About the hosts
+          The Hosts
         </p>
 
         <div className="relative size-full">
           <AnimatedTitle
-            title="Unraveling a <b>h</b>idden <br /> real<b>m</b>"
+            title="Hari &<b> SA</b>I <br />"
             containerClass="mt-5 pointer-events-none mix-blend-difference relative z-10"
           />
 
@@ -107,7 +107,7 @@ const FloatingImage = () => {
         <div className="-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
           <div className="flex h-full w-fit flex-col items-center md:items-start">
             <p className="mt-3 max-w-sm text-center font-circular-web text-violet-50 md:text-start">
-              Where dimensions of thought converge, our hosts unlock cosmic mysteries—revealing secrets
+              Where dimensions of thought converge, Sai and Hari unlock cosmic mysteries—revealing secrets
               that illuminate existence and kindle infinite wonder.
             </p>
 
@@ -116,6 +116,18 @@ const FloatingImage = () => {
               title="Follow Our Instagram"
               containerClass="mt-5"
               onClick={() => window.open('https://www.instagram.com/thewawpodcast', '_blank', 'noopener,noreferrer')}
+            />
+            <Button
+              id="realm-btn"
+              title="About Hari"
+              containerClass="mt-5"
+              onClick={() => window.open('https://www.sagisreeharivarma.com/', '_blank', 'noopener,noreferrer')}
+            />
+            <Button
+              id="realm-btn"
+              title="About Sai"
+              containerClass="mt-5"
+              onClick={() => window.open('https://skrishnamj.github.io/Portfolio2025/', '_blank', 'noopener,noreferrer')}
             />
           </div>
         </div>
