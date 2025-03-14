@@ -41,7 +41,7 @@ const About = () => {
         <div className="about-subtext hidden md:block">
           <p>A podcast exploring humanity's timeless, profound questions.</p>
           <p className="text-gray-500">
-            Explore consciousness, origins, and the cosmos to reveal human truths via science, philosophy, and technology.
+          Explore consciousness, origins, and the cosmos to reveal human truths via science, philosophy, and technology.
           </p>
         </div>
       </div>
