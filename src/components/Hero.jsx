@@ -19,24 +19,27 @@ const Hero = () => {
   const totalVideos = 4;
   const nextVdRef = useRef(null);
 
+  // ✅ Improved Mobile Detection Using User-Agent
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
     };
 
     checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   const handleVideoLoad = () => {
     setLoadedVideos((prev) => prev + 1);
   };
 
+  // ✅ Forced Timeout to Prevent Infinite Loading
   useEffect(() => {
     if (loadedVideos === totalVideos - 1) {
       setLoading(false);
     }
+
+    const timeout = setTimeout(() => setLoading(false), 5000); // Force stop loading after 5s
+    return () => clearTimeout(timeout);
   }, [loadedVideos]);
 
   const handleMiniVdClick = () => {
@@ -91,7 +94,7 @@ const Hero = () => {
     }
   });
 
-  const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
+  const getVideoSrc = (index) => `/videos/hero-${index}.mp4`;
 
   return (
       <div id="home" className="relative h-dvh w-screen overflow-x-hidden">
@@ -110,7 +113,7 @@ const Hero = () => {
             className={`relative z-10 h-dvh w-screen overflow-hidden rounded-lg ${
                 isMobile ? "bg-cover bg-center bg-no-repeat" : "bg-blue-75"
             }`}
-            style={{ backgroundImage: "url('/img/background.jpg')" }}
+            style={isMobile ? { backgroundImage: "url('/img/background.jpg')" } : {}}
         >
           {!isMobile && (
               <div>
