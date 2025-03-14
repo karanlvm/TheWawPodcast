@@ -2,8 +2,8 @@ import AnimatedTitle from "./AnimatedTitle";
 import Button from "./Button";
 
 const ImageClipBox = ({ src, clipClass }) => (
-  <div className={clipClass}>
-    <img src={src} />
+  <div className={`relative overflow-hidden rounded-lg ${clipClass}`}>
+    <img src={src} className="w-full h-auto object-cover" alt="contact" />
   </div>
 );
 
@@ -13,34 +13,40 @@ const Contact = () => {
   };
 
   return (
-    <div id="contact" className="my-20 min-h-96 w-screen  px-10">
-      <div className="relative rounded-lg bg-black py-24 text-blue-50 sm:overflow-hidden">
-        <div className="absolute -left-20 top-0 hidden h-full w-72 overflow-hidden sm:block lg:left-20 lg:w-96">
+    <div id="contact" className="my-20 min-h-96 w-screen px-6 md:px-10">
+      <div className="relative rounded-lg bg-black py-16 text-blue-50 sm:overflow-hidden">
+        {/* Left Image (Hidden on small screens) */}
+        <div className="absolute -left-10 top-0 hidden h-full w-48 sm:block md:block lg:left-20 lg:w-80">
           <ImageClipBox
-              src="/img/contact-2.jpg"
-              clipClass="sword-man-clip-path lg:translate-y-40 translate-y-60"
+            src="/img/contact-2.jpg"
+            clipClass="translate-y-40 md:translate-y-60"
           />
         </div>
 
-        <div className="absolute -top-40 left-20 w-60 sm:top-1/2 md:left-auto md:right-10 lg:top-20 lg:w-80">
+        {/* Right Image (Scales well with screens) */}
+        <div className="absolute -top-32 left-10 w-40 sm:top-1/2 sm:left-auto sm:right-10 hidden md:block lg:top-20 lg:w-72">
           <ImageClipBox
             src="/img/contact-3.jpg"
-            clipClass="sword-man-clip-path md:scale-125"
+            clipClass="scale-100 sm:scale-110 md:scale-125"
           />
-
         </div>
 
-        <div className="flex flex-col items-center text-center">
-          <p className="mb-10 font-general text-[10px] uppercase">
+        {/* Content */}
+        <div className="relative flex flex-col items-center text-center px-4 sm:px-10">
+          <p className="mb-6 text-xs uppercase tracking-widest text-gray-300">
             Contact us
           </p>
 
           <AnimatedTitle
             title="let&#39;s un<b>l</b>ock the <br /> mysteries of <br /> exis<b>ta</b>nce t<b>o</b>gether."
-            className="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
+            className="special-font text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight"
           />
 
-          <Button title="email us" containerClass="mt-10 cursor-pointer" onClick={handleEmailClick} />
+          <Button
+            title="Email Us"
+            containerClass="mt-8"
+            onClick={handleEmailClick}
+          />
         </div>
       </div>
     </div>
