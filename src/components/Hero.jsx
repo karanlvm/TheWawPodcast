@@ -12,25 +12,28 @@ gsap.registerPlugin(ScrollTrigger);
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
-
   const [loading, setLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const totalVideos = 4;
   const nextVdRef = useRef(null);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   const handleVideoLoad = () => {
     setLoadedVideos((prev) => prev + 1);
   };
 
-  const handleVideoError = (e) => {
-    console.error("Video failed to load:", e.target.src);
-    setLoadedVideos((prev) => prev + 1);
-  };
-
   useEffect(() => {
-    console.log("Loaded videos:", loadedVideos);
-    console.log("Loading state:", loading);
     if (loadedVideos === totalVideos - 1) {
       setLoading(false);
     }
@@ -43,7 +46,7 @@ const Hero = () => {
 
   useGSAP(
       () => {
-        if (hasClicked) {
+        if (hasClicked && !isMobile) {
           gsap.set("#next-video", { visibility: "visible" });
           gsap.to("#next-video", {
             transformOrigin: "center center",
@@ -63,13 +66,12 @@ const Hero = () => {
         }
       },
       {
-        dependencies: [currentIndex],
+        dependencies: [currentIndex, isMobile],
         revertOnUpdate: true,
       }
   );
 
   useGSAP(() => {
-    const isMobile = window.innerWidth < 768;
     if (!isMobile) {
       gsap.set("#video-frame", {
         clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
@@ -103,71 +105,90 @@ const Hero = () => {
             </div>
         )}
 
-        <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75">
-          <div>
-            <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
-              <VideoPreview>
-                <div
-                    onClick={handleMiniVdClick}
-                    className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
-                >
-                  <video
-                      ref={nextVdRef}
-                      src={getVideoSrc((currentIndex % totalVideos) + 1)}
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                      id="current-video"
-                      className="size-64 origin-center scale-150 object-cover object-center"
-                      onLoadedData={handleVideoLoad}
-                      onError={handleVideoError}
-                  />
+        <div
+            id="video-frame"
+            className={`relative z-10 h-dvh w-screen overflow-hidden rounded-lg ${
+                isMobile ? "bg-cover bg-center bg-no-repeat" : "bg-blue-75"
+            }`}
+            style={isMobile ? { backgroundImage: "url('/img/background.jpg')" } : {}}
+        >
+          {!isMobile && (
+              <div>
+                <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
+                  <VideoPreview>
+                    <div
+                        onClick={handleMiniVdClick}
+                        className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
+                    >
+                      <video
+                          ref={nextVdRef}
+                          src={getVideoSrc((currentIndex % totalVideos) + 1)}
+                          loop
+                          muted
+                          id="current-video"
+                          className="size-64 origin-center scale-150 object-cover object-center"
+                          onLoadedData={handleVideoLoad}
+                      />
+                    </div>
+                  </VideoPreview>
                 </div>
-              </VideoPreview>
-            </div>
 
-            <video
-                ref={nextVdRef}
-                src={getVideoSrc(currentIndex)}
-                loop
-                muted
-                playsInline
-                preload="auto"
-                id="next-video"
-                className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-                onLoadedData={handleVideoLoad}
-                onError={handleVideoError}
-            />
-            <video
-                src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="absolute left-0 top-0 size-full object-cover object-center"
-                onLoadedData={handleVideoLoad}
-                onError={handleVideoError}
-            />
-          </div>
+                <video
+                    ref={nextVdRef}
+                    src={getVideoSrc(currentIndex)}
+                    loop
+                    muted
+                    id="next-video"
+                    className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
+                    onLoadedData={handleVideoLoad}
+                />
+                <video
+                    src={getVideoSrc(
+                        currentIndex === totalVideos - 1 ? 1 : currentIndex
+                    )}
+                    autoPlay
+                    loop
+                    muted
+                    className="absolute left-0 top-0 size-full object-cover object-center"
+                    onLoadedData={handleVideoLoad}
+                />
+              </div>
+          )}
 
-          <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">Pod<b>C</b>AST</h1>
+          <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
+            Pod<b>C</b>AST
+          </h1>
 
           <div className="absolute left-0 top-0 z-40 size-full">
             <div className="mt-24 px-5 sm:px-10">
-              <h1 className="special-font hero-heading text-blue-100">TH<b>E </b>WAW</h1>
-              <p className="mb-5 max-w-64 font-robert-regular text-blue-100">Uncover life's cosmic mysteries.<br />Illuminate existence with wonder.</p>
+              <h1 className="special-font hero-heading text-blue-100">
+                TH<b>E </b>WAW
+              </h1>
+
+              <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
+                Uncover life's cosmic mysteries. <br /> Illuminate existence with wonder.
+              </p>
+
               <Button
                   id="watch-trailer"
                   title="Spotify"
                   leftIcon={<TiLocationArrow />}
                   containerClass="bg-yellow-300 flex-center gap-1"
-                  onClick={() => window.open('https://open.spotify.com/show/0TQuBhXjUOWEiEt3oFpDLO', '_blank', 'noopener,noreferrer')}
+                  onClick={() =>
+                      window.open(
+                          "https://open.spotify.com/show/0TQuBhXjUOWEiEt3oFpDLO",
+                          "_blank",
+                          "noopener,noreferrer"
+                      )
+                  }
               />
             </div>
           </div>
         </div>
+
+        <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
+          Pod<b>C</b>AST
+        </h1>
       </div>
   );
 };
