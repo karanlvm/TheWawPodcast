@@ -110,7 +110,7 @@ const Hero = () => {
             className={`relative z-10 h-dvh w-screen overflow-hidden rounded-lg ${
                 isMobile ? "bg-cover bg-center bg-no-repeat" : "bg-blue-75"
             }`}
-            style={isMobile ? { backgroundImage: "url('/img/background.jpg')" } : {}}
+            style={{ backgroundImage: "url('/img/background.jpg')" }}
         >
           {!isMobile && (
               <div>
