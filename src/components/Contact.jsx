@@ -18,7 +18,7 @@ const Contact = () => {
         {/* Left Image (Hidden on small screens) */}
         <div className="absolute -left-10 top-0 hidden h-full w-48 sm:block md:block lg:left-20 lg:w-80">
           <ImageClipBox
-            src="/img/contact-2.jpg"
+            src="public/img/contact-2.jpg"
             clipClass="translate-y-40 md:translate-y-60"
           />
         </div>
@@ -26,7 +26,7 @@ const Contact = () => {
         {/* Right Image (Scales well with screens) */}
         <div className="absolute -top-32 left-10 w-40 sm:top-1/2 sm:left-auto sm:right-10 hidden md:block lg:top-20 lg:w-72">
           <ImageClipBox
-            src="/img/contact-3.jpg"
+            src="public/img/contact-3.jpg"
             clipClass="scale-100 sm:scale-110 md:scale-125"
           />
         </div>

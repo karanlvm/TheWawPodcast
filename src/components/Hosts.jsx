@@ -57,7 +57,7 @@ const FloatingImage = () => {
         >
           <img
             ref={frameRef}
-            src="/img/hosts.webp"
+            src="public/img/hosts.webp"
             alt="hosts"
             className="w-full h-auto object-contain"
           />
